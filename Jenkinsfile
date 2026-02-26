@@ -5,7 +5,11 @@ pipeline {
         // ID kredensial yang dibuat di Jenkins
         KUBECONFIG_CREDENTIAL_ID = 'k8s-config'
     }
-
+    docker {
+            // Use an image that includes kubectl
+            image 'lachlanevenson/k8s-kubectl:latest'
+            args '-u root' // May be necessary depending on agent setup
+        }
     stages {
         stage('Checkout Source') {
             steps {
