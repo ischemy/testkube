@@ -36,7 +36,7 @@ pipeline {
                     
                         echo "System architecture: $ARCH -> Downloading kubectl for: $K8S_ARCH"
                     
-                        curl -L "https://dl.k8s.io/v1.35.1/bin/darwin/{K8S_ARCH}/kubectl" -o kubectl
+                        curl -L "https://dl.k8s.io/v1.35.1/bin/darwin/${K8S_ARCH}/kubectl" -o kubectl
                         chmod +x ./kubectl
                         '''
                 
