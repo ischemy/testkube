@@ -18,12 +18,18 @@ pipeline {
             steps {
                 // Menggunakan plugin Kubernetes CLI untuk auth
                 withKubeConfig([credentialsId: "${KUBECONFIG_CREDENTIAL_ID}"]) {
-                    script {
+                    script { 
+                        // 1. Download the kubectl binary to the current workspace
+                        echo "Downloading kubectl..."
+                        sh 'curl -LO "https://dl.k8s.io(curl -L -s https://dl.k8s.io)/bin/linux/amd64/kubectl"'
+                        sh 'chmod +x ./kubectl'
+                
+                        // 2. Run deployment using the local binary (./kubectl)
                         echo "Deploying App B (Server) to Worker 2..."
-                        sh "docker run --rm -u root -v ${WORKSPACE}:/apps -w /apps lachlanevenson/k8s-kubectl:latest kubectl apply -f app-b-deployment.yaml"
-                        
+                        sh "./kubectl apply -f app-b-deployment.yaml"
+                
                         echo "Deploying App A (Client) to Worker 1..."
-                        sh "docker run --rm -u root -v ${WORKSPACE}:/apps -w /apps lachlanevenson/k8s-kubectl:latest kubectl apply -f app-a-deployment.yaml"
+                        sh "./kubectl apply -f app-a-deployment.yaml"
                     }
                 }
             }
