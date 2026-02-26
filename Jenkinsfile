@@ -20,10 +20,10 @@ pipeline {
                 withKubeConfig([credentialsId: "${KUBECONFIG_CREDENTIAL_ID}"]) {
                     script { 
                         echo "Deploying App B..."
-                        sh "./kubectl apply -f app-b-deployment.yaml"
+                        sh "kubectl apply -f app-b-deployment.yaml"
                 
                         echo "Deploying App A..."
-                        sh "./kubectl apply -f app-a-deployment.yaml"
+                        sh "kubectl apply -f app-a-deployment.yaml"
                     }
                 }
             }
