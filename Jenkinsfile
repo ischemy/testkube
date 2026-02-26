@@ -26,7 +26,7 @@ pipeline {
                 
                         //echo "Downloading kubectl binary..."
                         // Hardcoding the version avoids shell escaping issues in Jenkins
-                        sh 'curl -L "https://dl.k8s.io/v1.32.12/bin/linux/arm/kubectl " -o kubectl'
+                        sh 'curl -L "https://dl.k8s.io/v1.32.12/bin/linux/arm64/kubectl " -o kubectl'
                         sh 'chmod +x ./kubectl'
                         
                         echo "Deploying App B..."
