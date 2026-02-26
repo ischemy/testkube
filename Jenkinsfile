@@ -21,7 +21,7 @@ pipeline {
                     script { 
                         // 1. Download the kubectl binary to the current workspace
                         echo "Downloading kubectl..."
-                        sh 'curl -LO "https://dl.k8s.io(curl -L -s https://dl.k8s.io)/bin/linux/amd64/kubectl"'
+                        sh 'curl -LO "https://dl.k8s.io/v1.35.1/bin/darwin/amd64/kubectl (curl -L -s https://dl.k8s.io/v1.35.1/bin/darwin/amd64/kubectl)/bin/linux/amd64/kubectl"'
                         sh 'chmod +x ./kubectl'
                 
                         // 2. Run deployment using the local binary (./kubectl)
