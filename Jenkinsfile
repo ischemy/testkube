@@ -19,16 +19,6 @@ pipeline {
                 // Menggunakan plugin Kubernetes CLI untuk auth
                 withKubeConfig([credentialsId: "${KUBECONFIG_CREDENTIAL_ID}"]) {
                     script { 
-                        // 1. Download the kubectl binary to the current workspace
-                        //echo "Downloading kubectl..."
-                        //sh 'curl -LO "https://dl.k8s.io/v1.35.1/bin/darwin/amd64/kubectl (curl -L -s https://dl.k8s.io/v1.35.1/bin/darwin/amd64/kubectl)/bin/linux/amd64/kubectl"'
-                        //sh 'chmod +x ./kubectl'
-                
-                        //echo "Downloading kubectl binary..."
-                        // Hardcoding the version avoids shell escaping issues in Jenkins
-                        sh 'curl -L "https://dl.k8s.io/v1.32.12/bin/linux/arm64/kubectl " -o kubectl'
-                        sh 'chmod +x ./kubectl'
-                        
                         echo "Deploying App B..."
                         sh "./kubectl apply -f app-b-deployment.yaml"
                 
