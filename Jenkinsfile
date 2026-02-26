@@ -1,12 +1,6 @@
 pipeline {
-    agent {
-        docker {
-            image 'lachlanevenson/k8s-kubectl:latest'
-            // Keep -u root to ensure permission to run scripts
-            args '-u root --entrypoint=' 
-        }
-    }
-
+    agent any
+    
     environment {
         // ID kredensial yang dibuat di Jenkins
         KUBECONFIG_CREDENTIAL_ID = 'k8s-config'
@@ -26,10 +20,10 @@ pipeline {
                 withKubeConfig([credentialsId: "${KUBECONFIG_CREDENTIAL_ID}"]) {
                     script {
                         echo "Deploying App B (Server) to Worker 2..."
-                        sh "kubectl apply -f app-b-deployment.yaml"
+                        sh "docker run --rm -u root -v ${WORKSPACE}:/apps -w /apps lachlanevenson/k8s-kubectl:latest kubectl apply -f app-b-deployment.yaml"
                         
                         echo "Deploying App A (Client) to Worker 1..."
-                        sh "kubectl apply -f app-a-deployment.yaml"
+                        sh "docker run --rm -u root -v ${WORKSPACE}:/apps -w /apps lachlanevenson/k8s-kubectl:latest kubectl apply -f app-a-deployment.yaml"
                     }
                 }
             }
