@@ -1,15 +1,17 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'lachlanevenson/k8s-kubectl:latest'
+            // Keep -u root to ensure permission to run scripts
+            args '-u root --entrypoint=' 
+        }
+    }
 
     environment {
         // ID kredensial yang dibuat di Jenkins
         KUBECONFIG_CREDENTIAL_ID = 'k8s-config'
     }
-    docker {
-            // Use an image that includes kubectl
-            image 'lachlanevenson/k8s-kubectl:latest'
-            args '-u root' // May be necessary depending on agent setup
-        }
+
     stages {
         stage('Checkout Source') {
             steps {
