@@ -26,8 +26,19 @@ pipeline {
                 
                         //echo "Downloading kubectl binary..."
                         // Hardcoding the version avoids shell escaping issues in Jenkins
-                        sh 'curl -L "https://dl.k8s.io/v1.35.1/bin/darwin/arm64/kubectl" -o kubectl'
-                        sh 'chmod +x ./kubectl'
+                        //sh 'curl -L "https://dl.k8s.io/v1.35.1/bin/darwin/arm64/kubectl" -o kubectl'
+                        //sh 'chmod +x ./kubectl'
+                        echo "Detecting architecture and downloading kubectl..."
+                        sh '''
+                        # Detect if system is x86_64 or arm64
+                        ARCH=$(uname -m)
+                        if [ "$ARCH" = "x86_64" ]; then K8S_ARCH="amd64"; else K8S_ARCH="arm64"; fi
+                    
+                        echo "System architecture: $ARCH -> Downloading kubectl for: $K8S_ARCH"
+                    
+                        curl -L "https://dl.k8s.io/v1.35.1/bin/darwin/{K8S_ARCH}/kubectl" -o kubectl
+                        chmod +x ./kubectl
+                        '''
                 
                         echo "Deploying App B..."
                         sh "./kubectl apply -f app-b-deployment.yaml"
